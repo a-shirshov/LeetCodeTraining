@@ -1,27 +1,25 @@
-package validatebinarysearchtree
+package main
+
+import "math"
 
 type TreeNode struct {
-	Val   int
-	Left  *TreeNode
+	Val int
+	Left *TreeNode
 	Right *TreeNode
 }
 
-func checkValidBST(root *TreeNode, rootVal int) bool {
+func checkValid(root *TreeNode, left, right int) bool {
 	if root == nil {
 		return true
 	}
-	
-	if root.Left != nil && root.Left.Val >= root.Val && root.Left.Val >= rootVal {
-		return false
-	}
 
-	if root.Right != nil && root.Right.Val <= root.Val && root.Right.Val <= rootVal {
+	if root.Val <= left || root.Val >= right {
 		return false
-	}
+	} 
 
-	return checkValidBST(root.Left, rootVal) && checkValidBST(root.Right, rootVal)
-}	
+	return checkValid(root.Left, left, root.Val) && checkValid(root.Right, root.Val, right)
+}
 
 func isValidBST(root *TreeNode) bool {
-	return checkValidBST(root, root.Val)
+	return checkValid(root, math.MinInt, math.MaxInt )
 }
